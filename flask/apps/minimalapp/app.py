@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, current_app, request
+from flask import Flask, current_app, g, render_template, request, url_for, redirect
 
 app = Flask(__name__)
 
@@ -13,11 +13,19 @@ def index():
 def hello(name):
     return render_template("index.html", name=name)
 
+# ctx = app.app_context()
+# ctx.push()
 
+# with app.test_request_context("/user?updated=true"):
+#     print(request.args.get("updated"))
 
-ctx = app.app_context()
-ctx.push()
+@app.route("/contact")
+def contact():
+    return render_template('contact.html')
 
-with app.test_request_context("/user?updated=true"):
-    print(request.args.get("updated"))
-
+@app.route("/contact/complete", methods=["GET", "POST"])
+def contact_complete():
+    if request.method == "POST":
+        # 임시
+        return redirect(url_for("contact_complete"))
+    return redirect("contact_complete")
