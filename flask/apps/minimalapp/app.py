@@ -1,14 +1,24 @@
 from flask import Flask, current_app, g, render_template, request, url_for, redirect, flash
 from email_validator import validate_email, EmailNotValidError
 
+from flask_debugtoolbar import DebugToolbarExtension
+
 from dotenv import load_dotenv
 import os
 
 app = Flask(__name__)
+
 load_dotenv()
 
 MY_SECRET_KEY = os.getenv("MY_SECRET_KEY")
 app.config["SECRET_KEY"] = MY_SECRET_KEY
+
+##### debug #####
+# debug True로 설정해야 디버그 모양이 나옴.
+app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
+app.debug = True
+toolbar = DebugToolbarExtension(app)
+##########
 
 @app.route('/')
 def index():
